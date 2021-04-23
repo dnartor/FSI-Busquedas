@@ -1,4 +1,5 @@
 
+import math
 #______________________________________________________________________________
 # Simple Data Structures: infinity, Dict, Struct
 
@@ -543,7 +544,7 @@ class FIFOQueue(Queue):
             self.start = 0
         return e
 
-class acotation():
+class acotation(Queue):
 
     def __init__(self):
         self.A = []
@@ -558,6 +559,34 @@ class acotation():
     def extend(self, items):
         self.A.extend(items)
         self.A.sort(key= lambda n: n.path_cost, reverse=True)
+
+    def pop(self):
+        e = self.A[self.start]
+        self.start += 1
+        if self.start > 5 and self.start > len(self.A) / 2:
+            self.A = self.A[self.start:]
+            self.start = 0
+        return e
+
+class acotationSubest(Queue):
+
+    def __init__(self,p):
+        self.A = []
+        self.start = 0
+        self.p = p
+
+    def append(self, item):
+        self.A.append(item)
+
+    def __len__(self):
+        return len(self.A) - self.start
+
+    def extend(self, items):
+        self.A.extend(items)
+        #h=self.p.h
+        #print (h)
+        #self.A.sort(key= lambda n: n.acumulated_path_cost, reverse=True)
+        self.A.sort(key=lambda n: n.path_cost + self.p.h(n), reverse=True)
 
     def pop(self):
         e = self.A[self.start]
